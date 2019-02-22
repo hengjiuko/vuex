@@ -1,0 +1,78 @@
+
+    Vuex是vueJs的应用程序的状态管理的一种模式，它是采用集中式的存储，
+把所有它所管理的vue组件的状态，都放在同一个地方，
+以相应的规则 来保证状态的变化是可以被预测的
+<!-- 都放在一个集中的地方了，就是一个全局大变量 -->
+
+状态的改变，是因为我们的行为改变它外观，
+反过来说，就是事物的表现层，对我们的action做出了反馈
+
+action ，就是各种事件，click、load、ajax、...
+
+vuex要管理的，就是它们所引起的各种事儿
+
+<!--  -->
+Vuex它使用一个store对象，来保存和管理整个应用的状态。
+
+当应用大到一定程度的时候，会把store拆分，然后在使用的时候，再合并
+其实就是一个大对象，包含了几个小对象
+
+store是整个状态的集中对象；
+    -state，存放状态；
+    -getter是state的计算属性；
+    -mutations,更新状态的逻辑，是同步操作的；
+        <!-- 不能直接调用它，同步操作必须通过store.commit()来提交mutations -->
+    -actions,异步的方式提交mutations的
+        <!-- 必须是用 dispatch来触发异步操作  -->
+    -modules,把store模块化
+
+<!-- 官方说法 -->
+-state, 驱动应用的数据源
+-view, 以声明的方式把state映射到视图
+-actions, 响应在view上的用户输入导致的状态的变化
+
+可以知道
+    -Vuex的核心，就是store对象
+    -每个vue应用，只能有一个store对象
+
+<!-- Vuex过程 -->
+1.从组件开始
+2.vue Components它call了一个actions
+    就是在页面上点击了个按钮，触发了一个事件，跟后台有一些交互
+3.actions它dispatch(派发)了一个mutations
+4.mutations它做了一些事之后。改变了state
+5.state更新了Components
+<!-- 3、4、5加在一起就是， Vuex -->
+
+
+注意：
+    1.单向数据流
+    2.组件可以调用action
+    3.actions可以dispatch出mutations
+    4.mutations才能修改state
+    5.state是响应式的，只要state被更新，那么components将同步被更新
+
+
+<!-- 一个完整的store的结构 -->
+new Vuex.Store({
+    state:{
+        // 各种状态，就是数据
+    },
+    getter:{
+        // 用来从state当中获得数据
+    },
+    mutations:{
+        // 一些业务逻辑，就是函数，放这里，同步
+    },
+    actions:{
+        // dispatch，提交mutations，异步
+})
+
+
+vuex的getter当中，有一个 mapGetters 的辅助函数，
+
+mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性，
+<!-- 这里的映射，其实就是指向 -->
+
+vuex当中，还有一个 mapActions 的辅助函数，
+它是数组的方括号表示法的形式，把事件映射到 模块中的方法，
